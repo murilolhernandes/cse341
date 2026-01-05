@@ -1,9 +1,4 @@
-const emilyRoute = (req, res) => {
-  res.send('Emily Birch');
-};
+const index = (req, res) => {
+  res.render('index')};
 
-const hannahRoute = (req, res) => {
-  res.send('Hannah Birch');
-};
-
-module.exports = { emilyRoute, hannahRoute };
+module.exports = { index };
