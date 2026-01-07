@@ -4,24 +4,28 @@ const ObjectId = require('mongodb').ObjectId;
 
 const baseController = {}
 
+// baseController.index = (req, res) => {
+//   res.sendFile(path.join(__dirname, '../views', 'index.html'));
+// };
+
 baseController.index = (req, res) => {
-  res.sendFile(path.join(__dirname, '../views', 'index.html'));
+  res.send("Hello World");
 };
 
 baseController.getAll = async (req, res, next) => {
-  const result = await mongodb.getDb().db().collection('user').find();
-  result.toArray().then((users) => {
+  const result = await mongodb.getDb().db().collection('contacts').find();
+  result.toArray().then((contacts) => {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(users);
+    res.status(200).json(contacts);
   });
 };
 
 baseController.getSingle = async (req, res, next) => {
-  const userId = new ObjectId(req.params.id);
-  const result = await mongodb.getDb().db().collection('user').find({ _id: userId });
-  result.toArray().then((users) => {
+  const contactId = new ObjectId(req.params.id);
+  const result = await mongodb.getDb().db().collection('contacts').find({ _id: contactId });
+  result.toArray().then((contact) => {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(users[0]);
+    res.status(200).json(contact[0]);
   });
 };
 
