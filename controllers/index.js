@@ -17,12 +17,4 @@ baseController.index = async (req, res, next) => {
   });
 };
 
-baseController.awesomeFunction = ((req, res, next) => {
-  res.json('Awesome person');
-});
-
-baseController.returnAnotherPerson = ((req, res, next) => {
-  res.json('Super awesome person');
-});
-
 module.exports = baseController;
