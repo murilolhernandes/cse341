@@ -5,6 +5,11 @@ const MongoClient = require('mongodb').MongoClient;
 let _db;
 
 const initDb = (callback) => {
+  // if (process.env.NODE_ENV == "development") {
+
+  // } else {
+
+  // }
   if (_db) {
     console.log('Db is already initialized!');
     return callback(null, _db);
