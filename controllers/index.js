@@ -8,15 +8,18 @@ const baseController = {}
 //   res.sendFile(path.join(__dirname, '../views', 'index.html'));
 // };
 
-baseController.index = (req, res) => {
-  //#swagger.tags=['Hello World']
-  res.send("Hello World");
-};
+// baseController.index = (req, res) => {
+//   //#swagger.tags=['Hello World']
+//   res.send("Hello World");
+// };
 
 baseController.getAll = async (req, res, next) => {
   //#swagger.tags=['Contacts']
   const result = await mongodb.getDb().db().collection('contacts').find();
-  result.toArray().then((contacts) => {
+  result.toArray(err).then((contacts) => {
+    if (err) {
+      res.status(400).json({ message: err });
+    }
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(contacts);
   });
@@ -26,7 +29,10 @@ baseController.getSingle = async (req, res, next) => {
   //#swagger.tags=['Contacts']
   const contactId = new ObjectId(req.params.id);
   const result = await mongodb.getDb().db().collection('contacts').find({ _id: contactId });
-  result.toArray().then((contact) => {
+  result.toArray(err).then((contact) => {
+    if (err) {
+      res.status(400).json({ message: err });
+    }
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(contact[0]);
   });
@@ -43,7 +49,7 @@ baseController.addContact = async (req, res, next) => {
   };
   const result = await mongodb.getDb().db().collection('contacts').insertOne(contact);
   if (result.acknowledged > 0) {
-    res.status(204).send();
+    res.status(201).json(result);
   } else {
     res.status(500).json(result.error || 'Some error occurred while creating the contact.');
   }
